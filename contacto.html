@@ -9,8 +9,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Trebuchet MS', Arial, sans-serif; }
         body { background-color: #ffffff; color: #333; }
         a { text-decoration: none; color: inherit; }
-
-        /* ENCABEZADO */
          header {
             background-color: #ffffff;
             display: flex;
@@ -31,13 +29,9 @@
         nav.main-nav a { color: #6a2519; font-weight: bold; font-size: 0.95rem; }
         nav.main-nav a.active { color: #d35400; border-bottom: 2px solid #d35400; }
         .cart-icon { font-size: 1.5rem; color: #6a2519; }
-
-        /* CONTENIDO PRINCIPAL */
         .page-container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
         .page-title { color: #6a2519; font-size: 1.8rem; text-align: center; margin-bottom: 10px; text-transform: uppercase; font-weight: 800; }
         .page-subtitle { text-align: center; color: #666; font-size: 0.95rem; margin-bottom: 40px; }
-
-        /* DISPOSICIÓN EN DOS COLUMNAS */
         .contact-card { 
             background-color: #fcf5ed; 
             border: 2px solid #7a2b1e; 
@@ -48,8 +42,6 @@
             gap: 40px; 
             align-items: flex-start;
         }
-
-        /* COLUMNA IZQUIERDA: FOTO DEL MAESTRO */
         .left-column { 
             flex: 1; 
             min-width: 250px; 
@@ -67,38 +59,26 @@
             overflow: hidden;
             margin-bottom: 15px;
         }
-        /* Cuando agregues tu imagen real, reemplaza el div por este tag de imagen:
-           
-        */
-        .artist-photo-container img {
+          .artist-photo-container img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
         .artist-name { color: #7a2b1e; font-size: 1.1rem; font-weight: bold; text-transform: uppercase; }
         .artist-title { font-size: 0.85rem; color: #666; margin-top: 4px; }
-
-        /* COLUMNA DERECHA: INFORMACIÓN Y CONTACTO */
         .right-column { 
             flex: 1.8; 
             min-width: 300px; 
         }
-        
         .section-header { border-bottom: 2px solid #7a2b1e; padding-bottom: 8px; margin-bottom: 15px; }
         .section-header h2 { color: #7a2b1e; font-size: 1.3rem; text-transform: uppercase; font-weight: 800; }
-
         .about-text { font-size: 0.95rem; line-height: 1.6; color: #444; margin-bottom: 25px; text-align: justify; }
-
         .contact-details { margin-bottom: 25px; }
         .detail-item { font-size: 0.95rem; line-height: 1.8; color: #333; margin-bottom: 8px; }
         .detail-item strong { color: #6a2519; }
-
-        /* BOTÓN WHATSAPP AL FINAL */
         .btn-whatsapp-container { margin-top: 20px; text-align: left; }
         .btn-whatsapp { display: inline-block; background-color: #25d366; color: #ffffff; padding: 12px 24px; border-radius: 6px; font-weight: bold; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); transition: background-color 0.3s; }
         .btn-whatsapp:hover { background-color: #1eb954; }
-
-        /* FOOTER */
         footer { background-color: #4a1811; color: #ffffff; padding: 22px 40px 12px 40px; margin-top: 60px; }
         .footer-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .footer-brand { font-size: 1.15rem; font-weight: bold; }
@@ -106,16 +86,13 @@
         .footer-links { display: flex; gap: 14px; font-size: 0.82rem; font-weight: bold; }
         .footer-divider { border: none; border-top: 1px solid #6e2a20; margin-bottom: 10px; }
         .footer-bottom { text-align: center; font-size: 0.72rem; color: #d8b2ac; }
-
-        /* RESPONSIVO PARA PANTALLAS PEQUEÑAS */
         @media (max-width: 768px) {
             .contact-card { flex-direction: column; }
             .right-column, .left-column { width: 100%; }
             .btn-whatsapp-container { text-align: center; }
         }
 @media (max-width: 768px) {
-    
-    header {
+        header {
                 flex-direction: column !important;
                 gap: 10px !important;
                 padding: 15px 10px !important;
@@ -131,24 +108,17 @@
         justify-content: center !important;
         gap: 10px 15px !important;
     }
-
-   
-    nav.main-nav span {
+       nav.main-nav span {
         display: none !important;
     }
-
-   
-    .hero, .hero-content {
+       .hero, .hero-content {
         padding: 20px 15px !important;
         text-align: center !important;
     }
-
     .hero h1 {
         font-size: 1.4rem !important;
         line-height: 1.3 !important;
     }
-
-    
     .main-container, 
     .content-wrapper, 
     .contact-card, 
@@ -159,8 +129,6 @@
         width: 100% !important;
         gap: 25px !important;
     }
-
-   
     .left-column, 
     .right-column, 
     .sidebar, 
@@ -168,8 +136,6 @@
         width: 100% !important;
         min-width: 100% !important;
     }
-
-   
     .destacados-grid, 
     .gallery-grid, 
     .grid-container {
@@ -178,29 +144,22 @@
         gap: 15px !important;
         width: 100% !important;
     }
-
     img {
         max-width: 100% !important;
         height: auto !important;
     }
-
-   
     .footer-top {
         flex-direction: column !important;
         gap: 15px !important;
         text-align: center !important;
     }
-
-    .footer-links {
+   .footer-links {
         flex-wrap: wrap !important;
         justify-content: center !important;
 }
-
     </style>
 </head>
 <body>
-
-    <!-- ENCABEZADO -->
     <header>
         <div class="logo"><a href="index.html"><img src="LOGO_0.png" alt="Orianga"></a></div>
         <nav class="main-nav">
@@ -211,40 +170,28 @@
         </nav>
         <div class="cart-icon"><a href="https://wa.me/593995072619" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
 </div>
-
     </header>
-
     <div class="page-container">
         <h1 class="page-title">Contacto & Sobre Nosotros</h1>
         <p class="page-subtitle">Conoce más sobre el taller y ponte en contacto con nosotros.</p>
-
         <div class="contact-card">
-            
-            <!-- COLUMNA IZQUIERDA: FOTO DEL MAESTRO -->
             <div class="left-column">
                 <div class="artist-photo-container">
                     <img src="Recurso 4.png" alt="Maestro Ovadi Cuenca" class="artist-photo">
-                   
-                </div>
+                   </div>
                 <div class="artist-name">Ovadi Cuenca</div>
                 <div class="artist-title">Artista Plástico & Director del Taller</div>
             </div>
-
-            <!-- COLUMNA DERECHA: SOBRE MÍ, DATOS Y WHATSAPP -->
             <div class="right-column">
-                
                 <div class="section-header">
                     <h2>Sobre Mí</h2>
                 </div>
-                
                 <p class="about-text">
                     MiOrianga Taller de Arte nace en el año 2017 bajo la dirección del artista Ovadi Cuenca. Nos dedicamos a la creación de obras pictóricas originales en óleo, acrílico y acuarela, además de la elaboración de artesanías únicas hechas a mano. Nuestro compromiso es brindar un espacio donde la creatividad, la expresión y el aprendizaje plástico se transmitan con pasión y profesionalismo.
                 </p>
-
                 <div class="section-header">
                     <h2>Información de Contacto</h2>
                 </div>
-
                 <div class="contact-details">
                     <div class="detail-item">
                         <strong> Dirección del Taller:</strong> General Torres 10-59, Cuenca, Ecuador
@@ -259,22 +206,17 @@
                         <strong> Servicios:</strong> Pinturas bajo pedido, catálogo de artesanías y clases de Pintura Libre.
                     </div>
                 </div>
-
                 <div class="btn-whatsapp-container">
                     <a href="https://wa.me/593995072619?text=Hola,%20deseo%20más%20información%20sobre%20el%20Taller%20de%20Arte" target="_blank" class="btn-whatsapp">
                          Contactar por WhatsApp
                     </a>
                 </div>
-                 
-
                     </a>
                 </div>
             </div>
 
         </div>
     </div>
-
-    <!-- FOOTER -->
     <footer>
         <div class="footer-top">
             <div class="footer-brand">Miorianga.art</div>
@@ -284,7 +226,6 @@
     <a href="https://www.tiktok.com/@miorianga" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
     <a href="https://wa.me/593995072619" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
 </div>
-
             <div class="footer-links">
                 <a href="index.html">HOME</a><span>|</span>
                 <a href="legal.html">LEGAL</a><span>|</span>
@@ -294,6 +235,5 @@
         <hr class="footer-divider">
         <div class="footer-bottom">© 2026 MiOrianga. Todos los derechos reservados.</div>
     </footer>
-
 </body>
 </html>
