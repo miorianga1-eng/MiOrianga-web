@@ -26,7 +26,6 @@
             color: inherit;
         }
 
-        /* --- ENCABEZADO (HEADER) --- */
         header {
             background-color: #ffffff;
             display: flex;
@@ -58,7 +57,6 @@
             color: #6a2519;
         }
 
-        /* --- BANNER PRINCIPAL (HERO) CON IMAGEN COMPLETA --- */
         .hero-banner {
             position: relative;
             width: 100%;
@@ -84,8 +82,8 @@
     text-transform: uppercase;
     line-height: 1.3;
     margin-bottom: 12px;
-    letter-spacing: 2px; /* Aumenta la elegancia del título */
-    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6); /* Ayuda a destacar sobre el fondo */
+    letter-spacing: 2px;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6); 
 }
 
     .hero-text-box p {
@@ -111,13 +109,11 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
-        /* --- SECCIÓN PRINCIPAL (2 COLUMNAS) --- */
         .main-container {
             display: flex;
             width: 100%;
         }
 
-        /* Columna Izquierda: Carruseles (75%) */
         .left-column {
             width: 75%;
             padding: 25px 20px;
@@ -134,7 +130,6 @@
             letter-spacing: 0.8px;
         }
 
-        /* Estructura del Carrusel Infinito envuelto en un solo Enlace */
         .carousel-link {
             display: block;
             width: 100%;
@@ -146,7 +141,6 @@
             text-decoration: none;
         }
 
-        /* Banner de Subtítulo Estilizado */
         .carrusel-subtitulo {
             position: absolute;
             top: 0;
@@ -177,7 +171,6 @@
             letter-spacing: 4px;
         }
 
-        /* Degradado difuminado a los bordes laterales */
         .carousel-link::before,
         .carousel-link::after {
             content: "";
@@ -203,7 +196,6 @@
             animation: scrollInfinito 22s linear infinite;
         }
 
-        /* Sentido contrario para el carrusel del medio */
         .carousel-track-reverse {
             animation: scrollInfinitoInverso 22s linear infinite;
         }
@@ -236,7 +228,6 @@
             display: block;
         }
 
-        /* Animación Normal (Derecha a Izquierda) */
         @keyframes scrollInfinito {
             0% {
                 transform: translateX(0);
@@ -246,7 +237,6 @@
             }
         }
 
-        /* Animación Inversa (Izquierda a Derecha) */
         @keyframes scrollInfinitoInverso {
             0% {
                 transform: translateX(-50%);
@@ -256,7 +246,6 @@
             }
         }
 
-        /* Columna Derecha: Información (25%) */
         .right-column {
             width: 25%;
             background-color: #7a2b1e;
@@ -326,7 +315,6 @@
             background-color: #20ba5a;
         }
 
-        /* --- PIE DE PÁGINA (FOOTER) --- */
         footer {
             background-color: #4a1811;
             color: #ffffff;
@@ -493,22 +481,18 @@
 
     <div class="main-container">
         
-        <!-- IZQUIERDA: CARRUSELES CONTINUOS (75%) -->
         <div class="left-column">
             <h1>DE LO MÁS DESTACADO</h1>
             
-            <!-- CARRUSEL 1: PINTURAS (UN SOLO LINK PARA TODO EL CARRUSEL) -->
             <a href="pinturas.html" class="carousel-link">
                 <div class="carrusel-subtitulo">PINTURAS</div>
                 <div class="carousel-track">
-                    <!-- Grupo 1 -->
                     <div class="carousel-card"><img src="Pintura 1.jpeg" alt="Pintura 1"></div>
                     <div class="carousel-card"><img src="Pintura 2.jpeg" alt="Pintura 2"></div>
                     <div class="carousel-card"><img src="Pintura 3.jpeg" alt="Pintura 3"></div>
                     <div class="carousel-card"><img src="Pintura 4.jpeg" alt="Pintura 4"></div>
                     <div class="carousel-card"><img src="Pintura 5.jpeg" alt="Pintura 5"></div>
 
-                    <!-- Duplicación exacta -->
                     <div class="carousel-card"><img src="Pintura 1.jpeg" alt="Pintura 1"></div>
                     <div class="carousel-card"><img src="Pintura 2.jpeg" alt="Pintura 2"></div>
                     <div class="carousel-card"><img src="Pintura 3.jpeg" alt="Pintura 3"></div>
@@ -517,18 +501,15 @@
                 </div>
             </a>
 
-            <!-- CARRUSEL 2: ARTESANÍAS (UN SOLO LINK PARA TODO EL CARRUSEL) -->
             <a href="artesanias.html" class="carousel-link">
                 <div class="carrusel-subtitulo">ARTESANÍAS</div>
                 <div class="carousel-track carousel-track-reverse">
-                    <!-- Grupo 1 -->
                     <div class="carousel-card"><img src="Artesania 1.jpeg" alt="Artesanía 1"></div>
                     <div class="carousel-card"><img src="Artesania 2.jpeg" alt="Artesanía 2"></div>
                     <div class="carousel-card"><img src="Artesania 3.jpeg" alt="Artesanía 3"></div>
                     <div class="carousel-card"><img src="Artesania 4.jpeg" alt="Artesanía 4"></div>
                     <div class="carousel-card"><img src="Artesania 5.jpeg" alt="Artesanía 5"></div>
 
-                    <!-- Duplicación exacta -->
                     <div class="carousel-card"><img src="Artesania 1.jpeg" alt="Artesanía 1"></div>
                     <div class="carousel-card"><img src="Artesania 2.jpeg" alt="Artesanía 2"></div>
                     <div class="carousel-card"><img src="Artesania 3.jpeg" alt="Artesanía 3"></div>
@@ -537,18 +518,15 @@
                 </div>
             </a>
 
-            <!-- CARRUSEL 3: CLASES Y TALLERES (UN SOLO LINK PARA TODO EL CARRUSEL) -->
             <a href="clases.html" class="carousel-link">
                 <div class="carrusel-subtitulo">CLASES Y TALLERES</div>
                 <div class="carousel-track">
-                    <!-- Grupo 1 -->
                     <div class="carousel-card"><img src="Imagen 1.jpeg" alt="Taller 1"></div>
                     <div class="carousel-card"><img src="Imagen 2.jpeg" alt="Taller 2"></div>
                     <div class="carousel-card"><img src="Imagen 3.jpeg" alt="Taller 3"></div>
                     <div class="carousel-card"><img src="Imagen 4.jpeg" alt="Taller 4"></div>
                     <div class="carousel-card"><img src="Imagen 5.jpeg" alt="Taller 5"></div>
 
-                    <!-- Duplicación exacta -->
                     <div class="carousel-card"><img src="Imagen 1.jpeg" alt="Taller 1"></div>
                     <div class="carousel-card"><img src="Imagen 2.jpeg" alt="Taller 2"></div>
                     <div class="carousel-card"><img src="Imagen 3.jpeg" alt="Taller 3"></div>
@@ -559,7 +537,6 @@
 
         </div>
 
-        <!-- DERECHA: SECCIÓN CAFÉ DE INFORMACIÓN (25%) -->
         <div class="right-column">
             <div>
                 <h2>UN RINCÓN DE ARTE Y CREACIÓN</h2>
@@ -580,7 +557,6 @@
 
     </div>
 
-    <!-- FOOTER VINO -->
     <footer>
         <div class="footer-top">
             <div class="footer-brand">Miorianga.art</div>
