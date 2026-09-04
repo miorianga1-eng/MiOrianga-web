@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pinturas | MiOrianga</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Trebuchet MS', Arial, sans-serif; }
+        
+        html { scroll-behavior: smooth; }
+        body { background-color: #ffffff; color: #333; }
+        a { text-decoration: none; color: inherit; }
+        
+        header {
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 40px;
+            position: relative;
+        }
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 25px;  
+            right: 25px; 
+            height: 1px;
+            background-color: #6a2519;
+        }
+        .logo img { height: 65px; object-fit: contain; }
+        nav.main-nav { display: flex; gap: 25px; align-items: center; }
+        nav.main-nav a { color: #6a2519; font-weight: bold; font-size: 0.95rem; }
+        nav.main-nav a.active { color: #d35400; border-bottom: 2px solid #d35400; }
+        .cart-icon { font-size: 1.5rem; color: #6a2519; }
+        
+        .page-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .page-title { color: #6a2519; font-size: 1.8rem; text-align: center; margin-bottom: 10px; text-transform: uppercase; font-weight: 800; }
+        .page-subtitle { text-align: center; color: #666; font-size: 0.95rem; margin-bottom: 40px; }
+        
+        .layout-wrapper {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .sidebar-index {
+            position: sticky;
+            top: 20px;
+            background: #fdfaf7;
+            border: 1px solid #e0d2c7;
+            padding: 15px 20px;
+            border-radius: 12px;
+            z-index: 100;
+        }
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #6a2519;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+        .sidebar-index h3 {
+            color: #6a2519;
+            font-size: 1.1rem;
+            width: 100%;
+        }
+        .mobile-toggle-btn { display: none; }
+        .sidebar-index ul { list-style: none; }
+        .sidebar-index li { margin-bottom: 12px; }
+        .sidebar-index a { color: #555; font-size: 0.9rem; font-weight: bold; transition: color 0.2s; }
+        .sidebar-index a:hover { color: #d35400; }
+
+        .category-section {
+            margin-bottom: 50px;
+            scroll-margin-top: 80px;
+        }
+        .category-title {
+            color: #6a2519;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            border-left: 4px solid #6a2519;
+            padding-left: 10px;
+            text-transform: uppercase;
+        }
+
+        .gallery-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 20px; 
+            justify-items: center;
+        }
+        
+        .artwork-card { 
+            border: 1px solid #e0e0e0; 
+            border-radius: 12px; 
+            overflow: hidden; 
+            background: #f2dac4; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05); 
+            transition: transform 0.3s;
+            width: 100%;
+            max-width: 320px;
+        }
+        .artwork-card:hover { transform: translateY(-5px); }
+        
+        .artwork-carousel { 
+            position: relative; 
+            width: 100%; 
+            height: 200px; 
+            background-color: #e8e8e8; 
+            overflow: hidden; 
+        }
+        .carousel-slider { display: flex; width: 100%; height: 100%; transition: transform 0.4s ease-in-out; }
+        .carousel-slider img { width: 100%; height: 100%; object-fit: cover; flex-shrink: 0; }
+
+        .artwork-image {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            background-color: #e8e8e8;
+            overflow: hidden;
+        }
+        .artwork-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(106, 37, 25, 0.75);
+            color: #ffffff;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            z-index: 10;
+        }
+        .carousel-arrow.prev { left: 8px; }
+        .carousel-arrow.next { right: 8px; }
+
+        .artwork-info { padding: 14px; text-align: center; }
+        .artwork-title { font-weight: bold; color: #6a2519; font-size: 0.95rem; margin-bottom: 4px; text-transform: uppercase; }
+        .artwork-details { font-size: 0.8rem; color: #555; margin-bottom: 12px; }
+        .btn-order { display: inline-block; background-color: #7a2b1e; color: #fff; padding: 7px 16px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; }
+        
+        footer { background-color: #4a1811; color: #ffffff; padding: 22px 40px 12px 40px; margin-top: 60px; }
+        .footer-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .footer-brand { font-size: 1.15rem; font-weight: bold; }
+        .footer-socials { display: flex; gap: 16px; font-size: 1.25rem; }
+        .footer-links { display: flex; gap: 14px; font-size: 0.82rem; font-weight: bold; }
+        .footer-divider { border: none; border-top: 1px solid #6e2a20; margin-bottom: 10px; }
+        .footer-bottom { text-align: center; font-size: 0.72rem; color: #d8b2ac; }
+
+        @media (max-width: 1024px) {
+            .layout-wrapper { grid-template-columns: 1fr; }
+            
+            .sidebar-index { 
+                position: sticky; 
+                top: 0; 
+                width: 100%; 
+                margin-bottom: 25px; 
+                box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+                background: #fdfaf7; 
+                padding: 12px 20px;
+            }
+            .sidebar-header { 
+                cursor: pointer; 
+                user-select: none; 
+                border-bottom: none; 
+                margin-bottom: 0; 
+                padding-bottom: 0; 
+            }
+            .sidebar-index h3 { font-size: 1rem; }
+            .mobile-toggle-btn { 
+                display: block; 
+                background: none; 
+                border: none; 
+                color: #6a2519; 
+                font-size: 1.2rem; 
+                pointer-events: none;
+            }
+            .sidebar-index ul { 
+                display: none; 
+                margin-top: 15px; 
+                border-top: 1px solid #e0d2c7; 
+                padding-top: 10px; 
+            }
+            .sidebar-index.open ul { display: block; }
+
+            .gallery-grid { 
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 15px; 
+            }
+            .artwork-card { max-width: 300px; }
+            .artwork-carousel, .artwork-image { height: 180px; }
+
+            header { flex-direction: column; gap: 10px; padding: 15px; text-align: center; }
+            .logo img { height: 50px; }
+            nav.main-nav { flex-wrap: wrap; justify-content: center; gap: 10px; }
+            nav.main-nav span { display: none; }
+            .footer-top { flex-direction: column; gap: 15px; text-align: center; }
+        }
+
+        @media (max-width: 600px) {
+            .gallery-grid { 
+                grid-template-columns: 1fr; 
+            }
+            .artwork-card { max-width: 280px; }
+            .artwork-carousel, .artwork-image { height: 180px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo"><a href="../index.html"><img src="LOGO_0.png" alt="Orianga"></a></div>
+        <nav class="main-nav">
+            <a href="../Pinturas/pinturas.html" class="active">PINTURAS</a><span>|</span>
+            <a href="../Artesanias/artesanias.html">ARTESANÍAS</a><span>|</span>
+            <a href="../Clases/clases.html">CLASES</a><span>|</span>
+            <a href="../Contacto/contacto.html">CONTACTO</a>
+        </nav>
+        <div class="cart-icon">
+            <a href="https://wa.me/593995072619" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+    </header>
+
+    <div class="page-container">
+        <h1 class="page-title">Pinturas Originales</h1>
+        <p class="page-subtitle">Obras en óleo, acrílico y acuarela hechas a mano, 
+o si te interesa algun modelo pero con otro acabado, tamaño o diseño, lo podemos hacer solo para ti.</p>
+        
+        <div class="layout-wrapper">
+            <aside class="sidebar-index" id="sidebarIndex">
+                <div class="sidebar-header" onclick="toggleSidebar()">
+                    <h3>Categorías</h3>
+                    <button class="mobile-toggle-btn" aria-label="Abrir categorías"><i class="fa-solid fa-bars"></i></button>
+                </div>
+                <ul>
+                    <li><a href="#naturaleza" onclick="closeSidebar()">Naturaleza y Paisajismo</a></li>
+                    <li><a href="#realismo" onclick="closeSidebar()">Realismo</a></li>
+                    <li><a href="#bodegones" onclick="closeSidebar()">Bodegones</a></li>
+                    <li><a href="#abstracto" onclick="closeSidebar()">Abstracto</a></li>
+                    <li><a href="#paisaje-cuencano" onclick="closeSidebar()">Paisaje Cuencano</a></li>
+                </ul>
+            </aside>
+
+            <main class="content-area">
+
+                <section id="naturaleza" class="category-section">
+                    <h2 class="category-title">Naturaleza y Paisajismo</h2>
+                    <div class="gallery-grid">
+                        <div class="artwork-card">
+                            <div class="artwork-carousel">
+                                <button class="carousel-arrow prev" onclick="moveSlide(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
+                                <div class="carousel-slider">
+                                    <img src="Nat_1_1.jpg" alt="Nat_1_1">
+                                    <img src="Nat_1_2.jpg" alt="Nat_1_2">
+                                </div>
+                                <button class="carousel-arrow next" onclick="moveSlide(this, 1)"><i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Composición Floral</div>
+                                <div class="artwork-details">1610x1000mm | ACRÍLICO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Nat_1" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Nat_2_1.jpg" alt="Nat_2_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Rugido del León</div>
+                                <div class="artwork-details">640x845mm | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Nat_2" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-carousel">
+                                <button class="carousel-arrow prev" onclick="moveSlide(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
+                                <div class="carousel-slider">
+                                    <img src="Nat_3_1.jpg" alt="Nat_3_1">
+                                    <img src="Nat_3_2.jpg" alt="Nat_3_2">
+                                    <img src="Nat_3_3.jpg" alt="Nat_3_3">
+                                    <img src="Nat_3_4.jpg" alt="Nat_3_4">
+                                </div>
+                                <button class="carousel-arrow next" onclick="moveSlide(this, 1)"><i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Ilustraciones del Patrimonio Cuencano</div>
+                                <div class="artwork-details">275x225mm | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Nat_3" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Nat_4_1.jpg" alt="Nat_4_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Rincón Colonial Enmarcado</div>
+                                <div class="artwork-details">240x320mm | ACUARELA</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Nat_4" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Nat_5_1.jpg" alt="Nat_5_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Vista Urbana Enmarcada</div>
+                                <div class="artwork-details">320x240mm | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Nat_5" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-carousel">
+                                <button class="carousel-arrow prev" onclick="moveSlide(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
+                                <div class="carousel-slider">
+                                    <img src="Nat_6_1.jpg" alt="Nat_6_1">
+                                    <img src="Nat_6_2.jpg" alt="Nat_6_2">
+                                    <img src="Nat_6_3.jpg" alt="Nat_6_3">
+                                    <img src="Nat_6_4.jpg" alt="Nat_6_4">
+                                    <img src="Nat_6_5.jpg" alt="Nat_6_5">
+                                    <img src="Nat_6_6.jpg" alt="Nat_6_6">
+                                    <img src="Nat_6_7.jpg" alt="Nat_6_7">
+                                </div>
+                                <button class="carousel-arrow next" onclick="moveSlide(this, 1)"><i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Serenidad de Paisajes</div>
+                                <div class="artwork-details">150x150mm | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Nat_6" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Nat_7_1.jpg" alt="Nat_7_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Cascada del Bosque</div>
+                                <div class="artwork-details">785x1640mm | ACRÍLICO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Nat_7" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-carousel">
+                                <button class="carousel-arrow prev" onclick="moveSlide(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
+                                <div class="carousel-slider">
+                                    <img src="Nat_8_1.jpg" alt="Nat_8_1">
+                                    <img src="Nat_8_2.jpg" alt="Nat_8_2">
+                                    <img src="Nat_8_3.jpg" alt="Nat_8_3">
+                                    <img src="Nat_8_4.jpg" alt="Nat_8_4">
+                                </div>
+                                <button class="carousel-arrow next" onclick="moveSlide(this, 1)"><i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Fuerza Equina</div>
+                                <div class="artwork-details">Varios Tamaños | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Nat_8" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Nat_9_1.jpg" alt="Nat_9_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Caballo Blanco en la Llanura</div>
+                                <div class="artwork-details">895x605mm | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Nat_9" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Nat_10_1.jpg" alt="Nat_10_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Espíritu Equino Étnico</div>
+                                <div class="artwork-details">950x905mm | ACRÍLICO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Nat_10" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-carousel">
+                                <button class="carousel-arrow prev" onclick="moveSlide(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
+                                <div class="carousel-slider">
+                                    <img src="Nat_11_1.jpg" alt="Nat_11_1">
+                                    <img src="Nat_11_2.jpg" alt="Nat_11_2">
+                                    <img src="Nat_11_3.jpg" alt="Nat_11_3">
+                                </div>
+                                <button class="carousel-arrow next" onclick="moveSlide(this, 1)"><i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Retratos Equinos</div>
+                                <div class="artwork-details">Varios Tamaños | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Nat_11" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-carousel">
+                                <button class="carousel-arrow prev" onclick="moveSlide(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
+                                <div class="carousel-slider">
+                                    <img src="Nat_12_1.jpg" alt="Nat_12_1">
+                                    <img src="Nat_12_2.jpg" alt="Nat_12_2">
+                                </div>
+                                <button class="carousel-arrow next" onclick="moveSlide(this, 1)"><i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Árboles de Estación</div>
+                                <div class="artwork-details">300x400mm | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Nat_12" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Nat_13_1.jpg" alt="Nat_13_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Puerta Azul y Hiedra</div>
+                                <div class="artwork-details">300x400mm | ACRÍLICO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Nat_13" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Nat_14_1.jpg" alt="Nat_14_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Pasaje Colonial con Flores</div>
+                                <div class="artwork-details">400x505mm | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Nat_14" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-carousel">
+                                <button class="carousel-arrow prev" onclick="moveSlide(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
+                                <div class="carousel-slider">
+                                    <img src="Nat_15_1.jpg" alt="Nat_15_1">
+                                    <img src="Nat_15_2.jpg" alt="Nat_15_2">
+                                    <img src="Nat_15_3.jpg" alt="Nat_15_3">
+                                </div>
+                                <button class="carousel-arrow next" onclick="moveSlide(this, 1)"><i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Flores Silvestres</div>
+                                <div class="artwork-details">Varios Tamaños | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Nat_15" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Nat_16_1.jpg" alt="Nat_16_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Guacamayo Tropical</div>
+                                <div class="artwork-details">400x500mm | ACRÍLICO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Nat_16" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Nat_17_1.jpg" alt="Nat_17_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Colibrí</div>
+                                <div class="artwork-details">255x290mm | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Nat_17" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Nat_18_1.jpg" alt="Nat_18_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Guerrero a Caballo</div>
+                                <div class="artwork-details">300x400mm | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Nat_18" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Nat_19_1.jpg" alt="Nat_19_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Cabaña en la Montaña</div>
+                                <div class="artwork-details">320x370mm | ACRÍLICO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Nat_19" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Nat_20_1.jpg" alt="Nat_20_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Cruz con Ave y Flores</div>
+                                <div class="artwork-details">270x370mm | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Nat_20" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Nat_21_1.jpg" alt="Nat_21_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Bote Mágico bajo la Luna</div>
+                                <div class="artwork-details">600x800mm | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Nat_21" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Nat_22_1.jpg" alt="Nat_22_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Gallo de Pelea</div>
+                                <div class="artwork-details">480x550mm | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Nat_22" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Nat_23_1.jpg" alt="Nat_23_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Bosque de Abedules</div>
+                                <div class="artwork-details">1300x900mm | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Nat_23" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Nat_24_1.jpg" alt="Nat_24_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Cabaña Otoñal</div>
+                                <div class="artwork-details">640x440mm | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Nat_24" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Nat_25_1.jpg" alt="Nat_25_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Explosión Floral</div>
+                                <div class="artwork-details">905x1095mm | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Nat_25" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Nat_26_1.jpg" alt="Nat_26_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Cerezas Frescas</div>
+                                <div class="artwork-details">600x505mm | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Nat_26" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>                
+
+                <section id="realismo" class="category-section">
+                    <h2 class="category-title">Realismo</h2>
+                    <div class="gallery-grid">
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Rea_1_1.jpg" alt="Rea_1_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Estilo Rock</div>
+                                <div class="artwork-details">955x1200mm | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Rea_1" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Rea_2_1.jpg" alt="Rea_2_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">La Última Cena</div>
+                                <div class="artwork-details">1100x650mm | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Rea_2" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Rea_3_1.jpg" alt="Rea_3_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Inocencia del Juego</div>
+                                <div class="artwork-details">905x1095mm | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Rea_3" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Rea_4_1.jpg" alt="Rea_4_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Dama de la Justicia</div>
+                                <div class="artwork-details">640x1100mm | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Rea_4" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Rea_5_1.jpg" alt="Rea_5_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Mujer Nativa con Charango</div>
+                                <div class="artwork-details">605x925mm | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Rea_5" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-carousel">
+                                <button class="carousel-arrow prev" onclick="moveSlide(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
+                                <div class="carousel-slider">
+                                    <img src="Rea_6_1.jpg" alt="Rea_6_1">
+                                    <img src="Rea_6_2.jpg" alt="Rea_6_2">
+                                    <img src="Rea_6_3.jpg" alt="Rea_6_3">
+                                    <img src="Rea_6_4.jpg" alt="Rea_6_4">
+                                </div>
+                                <button class="carousel-arrow next" onclick="moveSlide(this, 1)"><i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Elegancia Africana</div>
+                                <div class="artwork-details">Varios Tamaños | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Rea_6" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-carousel">
+                                <button class="carousel-arrow prev" onclick="moveSlide(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
+                                <div class="carousel-slider">
+                                    <img src="Rea_7_1.jpg" alt="Rea_7_1">
+                                    <img src="Rea_7_2.jpg" alt="Rea_7_2">
+                                </div>
+                                <button class="carousel-arrow next" onclick="moveSlide(this, 1)"><i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Desnudo Artístico Clásico</div>
+                                <div class="artwork-details">Varios Tamaños | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Rea_7" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Rea_8_1.jpg" alt="Rea_8_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Sagrado Corazón de Jesús</div>
+                                <div class="artwork-details">640x840mm | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Rea_8" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Rea_9_1.jpg" alt="Rea_9_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Rostro de Cristo con Corona de Espinas</div>
+                                <div class="artwork-details">95x760mm | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Rea_9" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="bodegones" class="category-section">
+                    <h2 class="category-title">Bodegones</h2>
+                    <div class="gallery-grid">
+                        <div class="artwork-card">
+                            <div class="artwork-carousel">
+                                <button class="carousel-arrow prev" onclick="moveSlide(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
+                                <div class="carousel-slider">
+                                    <img src="Bod_1_1.jpg" alt="Bod_1_1">
+                                    <img src="Bod_1_2.jpg" alt="Bod_1_2">
+                                </div>
+                                <button class="carousel-arrow next" onclick="moveSlide(this, 1)"><i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Bodegón de Frutas y Vino</div>
+                                <div class="artwork-details">Varios Tamaños | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Bod_1" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-carousel">
+                                <button class="carousel-arrow prev" onclick="moveSlide(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
+                                <div class="carousel-slider">
+                                    <img src="Bod_2_1.jpg" alt="Bod_2_1">
+                                    <img src="Bod_2_2.jpg" alt="Bod_2_2">
+                                </div>
+                                <button class="carousel-arrow next" onclick="moveSlide(this, 1)"><i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Vasijas Tradicionales</div>
+                                <div class="artwork-details">800x600mm | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Bod_2" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-carousel">
+                                <button class="carousel-arrow prev" onclick="moveSlide(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
+                                <div class="carousel-slider">
+                                    <img src="Bod_3_1.jpg" alt="Bod_3_1">
+                                    <img src="Bod_3_2.jpg" alt="Bod_3_2">
+                                </div>
+                                <button class="carousel-arrow next" onclick="moveSlide(this, 1)"><i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Cervezas y Tonel</div>
+                                <div class="artwork-details">800x600mm | ACRÍLICO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Bod_3" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Bod_4_1.jpg" alt="Bod_4_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Bote Rústico</div>
+                                <div class="artwork-details">300x300mm | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Bod_4" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Bod_5_1.jpg" alt="Bod_5_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Cosecha de Cacao</div>
+                                <div class="artwork-details">800x1400mm | ACRÍLICO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Bod_5" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Bod_6_1.jpg" alt="Bod_6_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Guitarra Eléctrica</div>
+                                <div class="artwork-details">450x905mm | ACRÍLICO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Bod_6" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Bod_7_1.jpg" alt="Bod_7_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Vasijas Precolombinas</div>
+                                <div class="artwork-details">450x600mm | ACRÍLICO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Bod_7" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="abstracto" class="category-section">
+                    <h2 class="category-title">Abstracto</h2>
+                    <div class="gallery-grid">
+                        <div class="artwork-card">
+                            <div class="artwork-carousel">
+                                <button class="carousel-arrow prev" onclick="moveSlide(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
+                                <div class="carousel-slider">
+                                    <img src="Abs_1_1.jpg" alt="Abs_1_1">
+                                    <img src="Abs_1_2.jpg" alt="Abs_1_2">
+                                    <img src="Abs_1_3.jpg" alt="Abs_1_3">
+                                </div>
+                                <button class="carousel-arrow next" onclick="moveSlide(this, 1)"><i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Ondas Cósmicas</div>
+                                <div class="artwork-details">Varios Tamaños | ACRÍLICO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Abs_1" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Abs_2_1.jpg" alt="Abs_2_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Geometría Urbana</div>
+                                <div class="artwork-details">430x760mm | TÉCNICA MIXTA</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Abs_2" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Abs_3_1.jpg" alt="Abs_3_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Sinfonía en Movimiento</div>
+                                <div class="artwork-details">800x600mm | ACRÍLICO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Abs_3" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Abs_4_1.jpg" alt="Abs_4_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Red de Espinas</div>
+                                <div class="artwork-details">300x200mm | ACRÍLICO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Abs_4" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-carousel">
+                                <button class="carousel-arrow prev" onclick="moveSlide(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
+                                <div class="carousel-slider">
+                                    <img src="Abs_5_1.jpg" alt="Abs_5_1">
+                                    <img src="Abs_5_2.jpg" alt="Abs_5_2">
+                                    <img src="Abs_5_3.jpg" alt="Abs_5_3">
+                                </div>
+                                <button class="carousel-arrow next" onclick="moveSlide(this, 1)"><i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Árbol de la Abundancia</div>
+                                <div class="artwork-details">800x600mm | ACRÍLICO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Abs_5" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Abs_6_1.jpg" alt="Abs_6_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Cántaros y Rostros Ancestrales</div>
+                                <div class="artwork-details">1410x800mm | ACRÍLICO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Abs_6" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="Abs_7_1.jpg" alt="Abs_7_1">
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Silencio Minimalista</div>
+                                <div class="artwork-details">850x1100mm | ACRÍLICO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Abs_7" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="paisaje-cuencano" class="category-section">
+                    <h2 class="category-title">Paisaje Cuencano</h2>
+                    <div class="gallery-grid">
+                        <div class="artwork-card">
+                            <div class="artwork-carousel">
+                                <button class="carousel-arrow prev" onclick="moveSlide(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
+                                <div class="carousel-slider">
+                                    <img src="Cue_1_1.jpg" alt="Cue_1_1">
+                                    <img src="Cue_1_2.jpg" alt="Cue_1_2">
+                                    <img src="Cue_1_3.jpg" alt="Cue_1_3">
+                                    <img src="Cue_1_4.jpg" alt="Cue_1_4">
+                                    <img src="Cue_1_5.jpg" alt="Cue_1_5">
+                                    <img src="Cue_1_6.jpg" alt="Cue_1_6">
+                                </div>
+                                <button class="carousel-arrow next" onclick="moveSlide(this, 1)"><i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Rincón Colonial Cuencano</div>
+                                <div class="artwork-details">Varios Tamaños | ÓLEO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Cue_1" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+
+                        <div class="artwork-card">
+                            <div class="artwork-carousel">
+                                <button class="carousel-arrow prev" onclick="moveSlide(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
+                                <div class="carousel-slider">
+                                    <img src="Cue_2_1.jpg" alt="Cue_2_1">
+                                    <img src="Cue_2_2.jpg" alt="Cue_2_2">
+                                    <img src="Cue_2_3.jpg" alt="Cue_2_3">
+                                    <img src="Cue_2_4.jpg" alt="Cue_2_4">
+                                    <img src="Cue_2_5.jpg" alt="Cue_2_5">
+                                </div>
+                                <button class="carousel-arrow next" onclick="moveSlide(this, 1)"><i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+                            <div class="artwork-info">
+                                <div class="artwork-title">Tradición y Rostros Andinos</div>
+                                <div class="artwork-details">Varios Tamaños | ACRÍLICO</div>
+                                <a href="https://wa.me/593995072619?text=Consulta%20Cue_2" target="_blank" class="btn-order">Consultar</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-top">
+            <div class="footer-brand">Miorianga.art</div>
+            <div class="footer-socials">
+                <a href="https://facebook.com/MIORIANGA" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://instagram.com/MI_ORIANGA" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@miorianga" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="https://wa.me/593995072619" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+            <div class="footer-links">
+                <a href="../index.html">HOME</a><span>|</span>
+                <a href="../Legal/legal.html">LEGAL</a><span>|</span>
+                <a href="../Contacto/contacto.html">CONTACTO</a>
+            </div>
+        </div>
+        <hr class="footer-divider">
+        <div class="footer-bottom">© 2026 MiOrianga. Todos los derechos reservados.</div>
+    </footer>
+
+    <script>
+        function moveSlide(button, direction) {
+            const carousel = button.closest('.artwork-carousel');
+            const slider = carousel.querySelector('.carousel-slider');
+            const slides = slider.querySelectorAll('img');
+            const totalSlides = slides.length;
+            
+            let currentIndex = parseInt(slider.getAttribute('data-index') || 0);
+            currentIndex += direction;
+            
+            if (currentIndex < 0) {
+                currentIndex = totalSlides - 1;
+            } else if (currentIndex >= totalSlides) {
+                currentIndex = 0;
+            }
+            
+            slider.setAttribute('data-index', currentIndex);
+            slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+        }
+
+        function toggleSidebar() {
+            if (window.innerWidth <= 1024) {
+                const sidebar = document.getElementById('sidebarIndex');
+                sidebar.classList.toggle('open');
+            }
+        }
+
+        function closeSidebar() {
+            if (window.innerWidth <= 1024) {
+                const sidebar = document.getElementById('sidebarIndex');
+                sidebar.classList.remove('open');
+            }
+        }
+    </script>
+</body>
+</html>
