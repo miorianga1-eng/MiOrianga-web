@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artesanías | MiOrianga</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Trebuchet MS', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #333333;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* HEADER */
+        header {
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 40px;
+            position: relative;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 25px;  
+            right: 25px; 
+            height: 1px;
+            background-color: #6a2519;
+        }
+
+        .logo img {
+            height: 65px;
+            object-fit: contain;
+        }
+
+        nav.main-nav {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        nav.main-nav a {
+            color: #6a2519;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+
+        nav.main-nav a.active {
+            color: #d35400;
+            border-bottom: 2px solid #d35400;
+        }
+
+        .cart-icon {
+            font-size: 1.5rem;
+            color: #6a2519;
+        }
+
+        /* CONTAINER & CARDS */
+        .page-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            color: #6a2519;
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            color: #666666;
+            font-size: 0.95rem;
+            margin-bottom: 40px;
+        }
+
+        .crafts-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 30px; 
+        }
+
+        .craft-card { 
+            border: 1px solid #e0e0e0; 
+            border-radius: 19px; 
+            overflow: hidden; 
+            background: #f2dac4; 
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); 
+            transition: transform 0.3s ease; 
+        }
+
+        .craft-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .craft-carousel {
+            position: relative;
+            width: 100%;
+            height: 240px;
+            background-color: #f0f0f0;
+            overflow: hidden;
+        }
+
+        .carousel-slider {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.4s ease-in-out;
+        }
+
+        .carousel-slider img,
+        .single-img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            display: block;
+            flex-shrink: 0;
+        }
+
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(106, 37, 25, 0.75);
+            color: #ffffff;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            z-index: 10;
+            transition: background 0.2s ease;
+        }
+
+        .carousel-arrow:hover {
+            background: rgba(106, 37, 25, 1);
+        }
+
+        .carousel-arrow.prev { left: 8px; }
+        .carousel-arrow.next { right: 8px; }
+
+        .craft-info {
+            padding: 18px;
+            text-align: center;
+        }
+
+        .craft-title {
+            font-weight: bold;
+            color: #6a2519;
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .craft-desc {
+            font-size: 0.85rem;
+            color: #555555;
+            margin-bottom: 12px;
+        }
+
+        .btn-order {
+            display: inline-block;
+            background-color: #7a2b1e;
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: #4a1811;
+            color: #ffffff;
+            padding: 22px 40px 12px 40px;
+            margin-top: 60px;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .footer-brand {
+            font-size: 1.15rem;
+            font-weight: bold;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 16px;
+            font-size: 1.25rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 14px;
+            font-size: 0.82rem;
+            font-weight: bold;
+        }
+
+        .footer-divider {
+            border: none;
+            border-top: 1px solid #6e2a20;
+            margin-bottom: 10px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            font-size: 0.72rem;
+            color: #d8b2ac;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 12px;
+                padding: 15px;
+                text-align: center;
+            }
+
+            .logo img {
+                height: 45px;
+                max-width: 100%;
+            }
+
+            nav.main-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px 12px;
+            }
+
+            nav.main-nav span {
+                display: none;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+                margin-bottom: 8px;
+            }
+
+            .page-subtitle {
+                font-size: 0.9rem;
+                padding: 0 10px;
+                margin-bottom: 20px;
+                color: #111111;
+            }
+
+            .crafts-grid {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                padding: 0 10px;
+            }
+
+            .craft-card {
+                width: 100%;
+                margin: 0;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+                background-color: #ffffff;
+            }
+
+            .craft-carousel, 
+            .carousel-slider img,
+            .single-img {
+                height: 260px;
+            }
+
+            .footer-top {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .footer-bottom {
+                color: #ffffff;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="../index.html"><img src="LOGO_0.png" alt="Orianga"></a>
+        </div>
+        <nav class="main-nav">
+            <a href="../Pinturas/pinturas.html">PINTURAS</a><span>|</span>
+            <a href="../Artesanias/artesanias.html" class="active">ARTESANÍAS</a><span>|</span>
+            <a href="../Clases/clases.html">CLASES</a><span>|</span>
+            <a href="../Contacto/contacto.html">CONTACTO</a>
+        </nav>
+        <div class="cart-icon">
+            <a href="https://wa.me/593995072619" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+    </header>
+
+    <main class="page-container">
+        <h1 class="page-title">Artesanías Hechas a Mano</h1>
+        <p class="page-subtitle">Piezas únicas elaboradas con detalle y tradición.</p>
+        
+        <div class="crafts-grid">
+            
+            <article class="craft-card">
+                <img src="Art_1_1.jpg" alt="Fachada Pequeña" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Fachada Pequeña</h2>
+                    <p class="craft-desc">Réplicas en miniatura con arquitectura colonial y techos de teja | 13x18cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20la%20Pieza%20Fachada%20Pequeña" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_2_1.jpg" alt="Fachada Mediana" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Fachada Mediana</h2>
+                    <p class="craft-desc">Réplicas en miniatura con arquitectura colonial y techos de teja | 21x18cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20la%20Pieza%20Fachada%20Mediana" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_3_1.jpg" alt="Fachada Grande" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Fachada Grande</h2>
+                    <p class="craft-desc">Réplicas en miniatura con arquitectura colonial y techos de teja | 28x18cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20la%20Pieza%20Fachada%20Grande" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_4_1.jpg" alt="Perchero de Pared Estilo Rústico" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Perchero de Pared Estilo Rústico</h2>
+                    <p class="craft-desc">Organizador de madera tallada con diseño de fachada tradicional | 28x28cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20el%20Perchero%20de%20Pared%20Estilo%20Rustico" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_5_1.jpg" alt="Maquetas de Almacenes y Tienditas" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Maquetas de Almacenes y Tienditas</h2>
+                    <p class="craft-desc">Escenas en miniatura de comercios y locales tradicionales | 12x18cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20las%20Maquetas%20de%20Almacenes%20y%20Tienditas" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_6_1.jpg" alt="Juego de Damas (Chismosas)" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Juego de Damas (Chismosas)</h2>
+                    <p class="craft-desc">Figuras estilizadas de un grupo de damas | 4 Figuras</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20el%20Juego%20de%20Damas" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_7_1.jpg" alt="Figuras Religiosas" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Figuras Religiosas</h2>
+                    <p class="craft-desc">Figuras religiosas estilizadas de la Sagrada Familia | 12x41cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20las%20Figuras%20Religiosas" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_8_1.jpg" alt="Rostro de Cristo con Corona de Espinas" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Rostro de Cristo con Corona de Espinas</h2>
+                    <p class="craft-desc">Escultura decorativa con acabado expresivo y tallado minucioso | 15x17cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20el%20Rostro%20de%20Cristo%20con%20Corona%20de%20Espinas" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_9_1.jpg" alt="Figura de la Sagrada Familia Abrazo" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Figura de la Sagrada Familia Abrazo</h2>
+                    <p class="craft-desc">Representación tierna en tonos pasteles y cálidos | 18x28cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20la%20Figura%20de%20la%20Sagrada%20Familia%20Abrazo" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_10_1.jpg" alt="Figura de Chola Cuencana Tejedora" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Figura de Chola Cuencana Tejedora</h2>
+                    <p class="craft-desc">Artesanía representativa con sombreros de paja toquilla | 16x16cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20la%20Figura%20de%20Chola%20Cuencana%20Tejedora" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_11_1.jpg" alt="Dama de la Justicia" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Dama de la Justicia</h2>
+                    <p class="craft-desc">Escultura clásica con la balanza y la espada en acabado metálico | 15x35cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20la%20Dama%20de%20la%20Justicia" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_12_1.jpg" alt="Buda de la Prosperidad" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Buda de la Prosperidad</h2>
+                    <p class="craft-desc">Buda de la Prosperidad | 18x20cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20la%20Pieza%20Buda%20de%20la%20Prosperidad" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_13_1.jpg" alt="Chola Cuencana con Vasijas de Barro" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Chola Cuencana con Vasijas de Barro</h2>
+                    <p class="craft-desc">Escultura folclórica que rinde homenaje a la alfarería local | 16x16cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20la%20Chola%20Cuencana%20con%20Vasijas%20de%20Barro" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_14_1.jpg" alt="Calavera Tallada Decorativa" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Calavera Tallada Decorativa</h2>
+                    <p class="craft-desc">Pieza artística con motivos folclóricos pintados a mano | 16x14cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20la%20Calavera%20Tallada%20Decorativa" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_15_1.jpg" alt="Cuadro de Madera con Fachada Colonial" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Cuadro de Madera con Fachada Colonial</h2>
+                    <p class="craft-desc">Relieve artesanal montado sobre tabla de madera rústica | 22x18cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20el%20Cuadro%20de%20Madera%20con%20Fachada%20Colonial" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <div class="craft-carousel">
+                    <button class="carousel-arrow prev" onclick="moveSlide(this, -1)" aria-label="Imagen anterior"><i class="fa-solid fa-chevron-left"></i></button>
+                    <div class="carousel-slider">
+                        <img src="Art_16_1.jpg" alt="Sahumador o Quemador Antiguo - Vista 1">
+                        <img src="Art_16_2.jpg" alt="Sahumador o Quemador Antiguo - Vista 2">
+                    </div>
+                    <button class="carousel-arrow next" onclick="moveSlide(this, 1)" aria-label="Siguiente imagen"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="craft-info">
+                    <h2 class="craft-title">Sahumador o Quemador Antiguo</h2>
+                    <p class="craft-desc">Pieza en barro tallado para incienso y esencias | 19x12cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20la%20Pieza%20Sahumador%20o%20Quemador%20Antiguo" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <div class="craft-carousel">
+                    <button class="carousel-arrow prev" onclick="moveSlide(this, -1)" aria-label="Imagen anterior"><i class="fa-solid fa-chevron-left"></i></button>
+                    <div class="carousel-slider">
+                        <img src="Art_17_1.jpg" alt="Maceteros de personajes - Vista 1">
+                        <img src="Art_17_2.jpg" alt="Maceteros de personajes - Vista 2">
+                    </div>
+                    <button class="carousel-arrow next" onclick="moveSlide(this, 1)" aria-label="Siguiente imagen"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="craft-info">
+                    <h2 class="craft-title">Maceteros de personajes</h2>
+                    <p class="craft-desc">Maceteros modernos y abstractos para decoración | 1 elemento</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20los%20Maceteros%20de%20Personajes" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <div class="craft-carousel">
+                    <button class="carousel-arrow prev" onclick="moveSlide(this, -1)" aria-label="Imagen anterior"><i class="fa-solid fa-chevron-left"></i></button>
+                    <div class="carousel-slider">
+                        <img src="Art_18_1.jpg" alt="Plato Decorativo de Pared - Vista 1">
+                        <img src="Art_18_2.jpg" alt="Plato Decorativo de Pared - Vista 2">
+                    </div>
+                    <button class="carousel-arrow next" onclick="moveSlide(this, 1)" aria-label="Siguiente imagen"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="craft-info">
+                    <h2 class="craft-title">Plato Decorativo de Pared</h2>
+                    <p class="craft-desc">Placa circular pintada a mano con paisajes y escenas locales | 20x20cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20los%20Platos%20Decorativos%20de%20Pared" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_19_1.jpg" alt="Cofres de Madera Pintados" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Cofres de Madera Pintados</h2>
+                    <p class="craft-desc">Cajas organizadoras con delicadas ilustraciones florales | Varios Tamaños</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20los%20Cofres%20de%20Madera%20Pintados" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_20_1.jpg" alt="Macetas con Plantas Artificiales" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Macetas con Plantas Artificiales</h2>
+                    <p class="craft-desc">Arreglos florales en base cerámica para interiores | Varios Tamaños</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20las%20Macetas%20con%20Plantas%20Artificiales" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_21_1.jpg" alt="Joyeros con Miniatura de Máquina de Coser" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Joyeros con Miniatura de Máquina de Coser</h2>
+                    <p class="craft-desc">Cajoneras vintage con detalles decorativos de costura | 13x18cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20los%20Joyeros%20con%20Miniatura%20de%20Maquina%20de%20Coser" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_22_1.jpg" alt="Tazón Decorativo Paisajista" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Tazón Decorativo Paisajista</h2>
+                    <p class="craft-desc">Cuenco artesanal ilustrado con arquitectura cuencana | 50x47cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20el%20Tazón%20Decorativo%20Paisajista" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_23_1.jpg" alt="Miniescenas de Picanterías Tradicionales" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Miniescenas de Picanterías Tradicionales</h2>
+                    <p class="craft-desc">Maquetas folclóricas de la gastronomía y tradición local | 6x6cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20las%20Miniescenas%20de%20Picanterías%20Tradicionales" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_24_1.jpg" alt="Alcancías de Chanchitos Coloridos" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Alcancías de Chanchitos Coloridos</h2>
+                    <p class="craft-desc">Cerámica pintada a mano con acabados brillantes | 25x21cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20las%20Alcancías%20de%20Chanchitos%20Coloridos" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <div class="craft-carousel">
+                    <button class="carousel-arrow prev" onclick="moveSlide(this, -1)" aria-label="Imagen anterior"><i class="fa-solid fa-chevron-left"></i></button>
+                    <div class="carousel-slider">
+                        <img src="Art_25_1.jpg" alt="Latas Decorativas Vintage - Vista 1">
+                        <img src="Art_25_2.jpg" alt="Latas Decorativas Vintage - Vista 2">
+                    </div>
+                    <button class="carousel-arrow next" onclick="moveSlide(this, 1)" aria-label="Siguiente imagen"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="craft-info">
+                    <h2 class="craft-title">Latas Decorativas Vintage</h2>
+                    <p class="craft-desc">Decoración en forma de latas coleccionables | 18x31cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20las%20Latas%20Decorativas%20Vintage" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <div class="craft-carousel">
+                    <button class="carousel-arrow prev" onclick="moveSlide(this, -1)" aria-label="Imagen anterior"><i class="fa-solid fa-chevron-left"></i></button>
+                    <div class="carousel-slider">
+                        <img src="Art_26_1.jpg" alt="Maqueta de la Catedral de Cuenca - Vista 1">
+                        <img src="Art_26_2.jpg" alt="Maqueta de la Catedral de Cuenca - Vista 2">
+                    </div>
+                    <button class="carousel-arrow next" onclick="moveSlide(this, 1)" aria-label="Siguiente imagen"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="craft-info">
+                    <h2 class="craft-title">Maqueta de la Catedral de Cuenca</h2>
+                    <p class="craft-desc">Réplica detallada de la Catedral de la Inmaculada Concepción | 17x11cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20la%20Maqueta%20de%20la%20Catedral%20de%20Cuenca" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <div class="craft-carousel">
+                    <button class="carousel-arrow prev" onclick="moveSlide(this, -1)" aria-label="Imagen anterior"><i class="fa-solid fa-chevron-left"></i></button>
+                    <div class="carousel-slider">
+                        <img src="Art_27_1.jpg" alt="Cofres Tallados con Elefantes - Vista 1">
+                        <img src="Art_27_2.jpg" alt="Cofres Tallados con Elefantes - Vista 2">
+                    </div>
+                    <button class="carousel-arrow next" onclick="moveSlide(this, 1)" aria-label="Siguiente imagen"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="craft-info">
+                    <h2 class="craft-title">Cofres Tallados con Elefantes</h2>
+                    <p class="craft-desc">Cajas decorativas de madera y cuero con relieves de fauna | 6x4cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20los%20Cofres%20Tallados%20con%20Elefantes" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_28_1.jpg" alt="Figura Geométrica de Gato" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Figura Geométrica de Gato</h2>
+                    <p class="craft-desc">Escultura de estilo poligonal con detalles dorados | 10x14cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20la%20Pieza%20Figura%20Geométrica%20de%20Gato" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <div class="craft-carousel">
+                    <button class="carousel-arrow prev" onclick="moveSlide(this, -1)" aria-label="Imagen anterior"><i class="fa-solid fa-chevron-left"></i></button>
+                    <div class="carousel-slider">
+                        <img src="Art_29_1.jpg" alt="Muñecas de Traje Tradicional - Vista 1">
+                        <img src="Art_29_2.jpg" alt="Muñecas de Traje Tradicional - Vista 2">
+                    </div>
+                    <button class="carousel-arrow next" onclick="moveSlide(this, 1)" aria-label="Siguiente imagen"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="craft-info">
+                    <h2 class="craft-title">Muñecas de Traje Tradicional</h2>
+                    <p class="craft-desc">Artesanía textil con vestimenta típica hecha a mano | 12x27cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20la%20Muñeca%20de%20Traje%20Tradicional" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <div class="craft-carousel">
+                    <button class="carousel-arrow prev" onclick="moveSlide(this, -1)" aria-label="Imagen anterior"><i class="fa-solid fa-chevron-left"></i></button>
+                    <div class="carousel-slider">
+                        <img src="Art_30_1.jpg" alt="Botellas Talladas con Forma de Calavera - Vista 1">
+                        <img src="Art_30_2.jpg" alt="Botellas Talladas con Forma de Calavera - Vista 2">
+                    </div>
+                    <button class="carousel-arrow next" onclick="moveSlide(this, 1)" aria-label="Siguiente imagen"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="craft-info">
+                    <h2 class="craft-title">Botellas Talladas con Forma de Calavera</h2>
+                    <p class="craft-desc">Cristalera y recipientes artesanales para licores o decoración | 9x12cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20las%20Botellas%20Talladas%20con%20Forma%20de%20Calavera" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_31_1.jpg" alt="Inciensarios Longilíneos con Buda" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Inciensarios Longilíneos con Buda</h2>
+                    <p class="craft-desc">Porta inciensos en relieve para meditación y relajación | 23x10cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20los%20Inciensarios%20Longilineos%20con%20Buda" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <div class="craft-carousel">
+                    <button class="carousel-arrow prev" onclick="moveSlide(this, -1)" aria-label="Imagen anterior"><i class="fa-solid fa-chevron-left"></i></button>
+                    <div class="carousel-slider">
+                        <img src="Art_32_1.jpg" alt="Ángeles y Arcángeles Esculpidos - Vista 1">
+                        <img src="Art_32_2.jpg" alt="Ángeles y Arcángeles Esculpidos - Vista 2">
+                    </div>
+                    <button class="carousel-arrow next" onclick="moveSlide(this, 1)" aria-label="Siguiente imagen"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="craft-info">
+                    <h2 class="craft-title">Ángeles y Arcángeles Esculpidos</h2>
+                    <p class="craft-desc">Figuras religiosas con acabados clásicos en bronce y pátina | 11x20cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20las%20Piezas%20de%20Ángeles%20y%20Arcángeles%20Esculpidos" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <div class="craft-carousel">
+                    <button class="carousel-arrow prev" onclick="moveSlide(this, -1)" aria-label="Imagen anterior"><i class="fa-solid fa-chevron-left"></i></button>
+                    <div class="carousel-slider">
+                        <img src="Art_33_1.jpg" alt="Cuadros Rústicos de Paisaje Andino - Vista 1">
+                        <img src="Art_33_2.jpg" alt="Cuadros Rústicos de Paisaje Andino - Vista 2">
+                    </div>
+                    <button class="carousel-arrow next" onclick="moveSlide(this, 1)" aria-label="Siguiente imagen"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="craft-info">
+                    <h2 class="craft-title">Cuadros Rústicos de Paisaje Andino</h2>
+                    <p class="craft-desc">Enmarcados en madera con relieves de la mujer rural | 5x4cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20los%20Cuadros%20Rústicos%20de%20Paisajes%20Andinos" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <div class="craft-carousel">
+                    <button class="carousel-arrow prev" onclick="moveSlide(this, -1)" aria-label="Imagen anterior"><i class="fa-solid fa-chevron-left"></i></button>
+                    <div class="carousel-slider">
+                        <img src="Art_34_1.jpg" alt="Busto de Faraón Egipcio - Vista 1">
+                        <img src="Art_34_2.jpg" alt="Busto de Faraón Egipcio - Vista 2">
+                    </div>
+                    <button class="carousel-arrow next" onclick="moveSlide(this, 1)" aria-label="Siguiente imagen"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="craft-info">
+                    <h2 class="craft-title">Busto de Faraón Egipcio</h2>
+                    <p class="craft-desc">Escultura temática con detalles dorados y negros | 7x10cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20la%20Pieza%20del%20Busto%20de%20Faraón%20Egipcio" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <div class="craft-carousel">
+                    <button class="carousel-arrow prev" onclick="moveSlide(this, -1)" aria-label="Imagen anterior"><i class="fa-solid fa-chevron-left"></i></button>
+                    <div class="carousel-slider">
+                        <img src="Art_35_1.jpg" alt="Cantores Corales de Cerámica - Vista 1">
+                        <img src="Art_35_2.jpg" alt="Cantores Corales de Cerámica - Vista 2">
+                    </div>
+                    <button class="carousel-arrow next" onclick="moveSlide(this, 1)" aria-label="Siguiente imagen"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="craft-info">
+                    <h2 class="craft-title">Cantores Corales de Cerámica</h2>
+                    <p class="craft-desc">Figuras tiernas de niños cantando villancicos o coros | 8x10cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20las%20Piezas%20Cantores%20Corales%20de%20Cerámica" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_36_1.jpg" alt="Sostenedores Tallados de Egipto" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Sostenedores Tallados de Egipto</h2>
+                    <p class="craft-desc">Figuras decorativas inspiradas en estatuas del antiguo Egipto | 5x15cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20los%20Sostenedores%20Tallados%20de%20Egipto" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <div class="craft-carousel">
+                    <button class="carousel-arrow prev" onclick="moveSlide(this, -1)" aria-label="Imagen anterior"><i class="fa-solid fa-chevron-left"></i></button>
+                    <div class="carousel-slider">
+                        <img src="Art_37_1.jpg" alt="Sarcófagos Egipcios Miniatura - Vista 1">
+                        <img src="Art_37_2.jpg" alt="Sarcófagos Egipcios Miniatura - Vista 2">
+                    </div>
+                    <button class="carousel-arrow next" onclick="moveSlide(this, 1)" aria-label="Siguiente imagen"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="craft-info">
+                    <h2 class="craft-title">Sarcófagos Egipcios Miniatura</h2>
+                    <p class="craft-desc">Piezas de colección con detalle de relieve | 3x12cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20los%20Sarcófagos%20Egipcios%20Miniatura" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <div class="craft-carousel">
+                    <button class="carousel-arrow prev" onclick="moveSlide(this, -1)" aria-label="Imagen anterior"><i class="fa-solid fa-chevron-left"></i></button>
+                    <div class="carousel-slider">
+                        <img src="Art_38_1.jpg" alt="Obeliscos Egipcios Tallados - Vista 1">
+                        <img src="Art_38_2.jpg" alt="Obeliscos Egipcios Tallados - Vista 2">
+                    </div>
+                    <button class="carousel-arrow next" onclick="moveSlide(this, 1)" aria-label="Siguiente imagen"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="craft-info">
+                    <h2 class="craft-title">Obeliscos Egipcios Tallados</h2>
+                    <p class="craft-desc">Esculturas en forma de pilar con jeroglíficos grabados | 4x22cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20los%20Obeliscos%20Egipcios%20Tallados" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <div class="craft-carousel">
+                    <button class="carousel-arrow prev" onclick="moveSlide(this, -1)" aria-label="Imagen anterior"><i class="fa-solid fa-chevron-left"></i></button>
+                    <div class="carousel-slider">
+                        <img src="Art_39_1.jpg" alt="Llaveros de Calavera Tallada - Vista 1">
+                        <img src="Art_39_2.jpg" alt="Llaveros de Calavera Tallada - Vista 2">
+                    </div>
+                    <button class="carousel-arrow next" onclick="moveSlide(this, 1)" aria-label="Siguiente imagen"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="craft-info">
+                    <h2 class="craft-title">Llaveros de Calavera Tallada</h2>
+                    <p class="craft-desc">Accesorios artesanales hechos a mano con detalles minuciosos | 5x3cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20los%20Llaveros%20de%20Calavera%20Tallada" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <div class="craft-carousel">
+                    <button class="carousel-arrow prev" onclick="moveSlide(this, -1)" aria-label="Imagen anterior"><i class="fa-solid fa-chevron-left"></i></button>
+                    <div class="carousel-slider">
+                        <img src="Art_40_1.jpg" alt="Fila de Elefantes de la Suerte - Vista 1">
+                        <img src="Art_40_2.jpg" alt="Fila de Elefantes de la Suerte - Vista 2">
+                    </div>
+                    <button class="carousel-arrow next" onclick="moveSlide(this, 1)" aria-label="Siguiente imagen"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="craft-info">
+                    <h2 class="craft-title">Fila de Elefantes de la Suerte</h2>
+                    <p class="craft-desc">Conjunto de figuras ornamentales con mantos decorados | Varios Tamaños</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20la%20Fila%20de%20Elefantes%20de%20la%20Suerte" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <div class="craft-carousel">
+                    <button class="carousel-arrow prev" onclick="moveSlide(this, -1)" aria-label="Imagen anterior"><i class="fa-solid fa-chevron-left"></i></button>
+                    <div class="carousel-slider">
+                        <img src="Art_41_1.jpg" alt="Ranitas de la Fortuna en Cerámica - Vista 1">
+                        <img src="Art_41_2.jpg" alt="Ranitas de la Fortuna en Cerámica - Vista 2">
+                    </div>
+                    <button class="carousel-arrow next" onclick="moveSlide(this, 1)" aria-label="Siguiente imagen"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="craft-info">
+                    <h2 class="craft-title">Ranitas de la Fortuna en Cerámica</h2>
+                    <p class="craft-desc">Esculturas de animales para la decoración de jardines u hogar | 4x5cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20las%20Ranitas%20de%20la%20Fortuna%20en%20Cerámica" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <div class="craft-carousel">
+                    <button class="carousel-arrow prev" onclick="moveSlide(this, -1)" aria-label="Imagen anterior"><i class="fa-solid fa-chevron-left"></i></button>
+                    <div class="carousel-slider">
+                        <img src="Art_42_1.jpg" alt="Crucifijos de Madera Tallada - Vista 1">
+                        <img src="Art_42_2.jpg" alt="Crucifijos de Madera Tallada - Vista 2">
+                    </div>
+                    <button class="carousel-arrow next" onclick="moveSlide(this, 1)" aria-label="Siguiente imagen"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="craft-info">
+                    <h2 class="craft-title">Crucifijos de Madera Tallada</h2>
+                    <p class="craft-desc">Cruces de mesa con la figura de Cristo en altorrelieve | 7x12cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20los%20Crucifijos%20de%20Madera%20Tallada" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_43_1.jpg" alt="Cruz con Mensaje Inspirador" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Cruz con Mensaje Inspirador</h2>
+                    <p class="craft-desc">Placa religiosa de madera decorada con cenefas | 11x18cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20la%20Cruz%20con%20Mensaje%20Inspirador" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_44_1.jpg" alt="Marcapáginas Tallados en Madera" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Marcapáginas Tallados en Madera</h2>
+                    <p class="craft-desc">Separadores de libros artesanales con figuras de aves y plantas | 24xVarios cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20los%20Marcapaginas%20Tallados%20en%20Madera" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_45_1.jpg" alt="Escena Folclórica con Diablo Huma" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Escena Folclórica con Diablo Huma</h2>
+                    <p class="craft-desc">Conjunto de personajes de las festividades tradicionales andinas | 8x6cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20las%20Escenas%20Folclóricas%20con%20Diablo%20Huma" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_46_1.jpg" alt="Baúles de Madera Natural" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Baúles de Madera Natural</h2>
+                    <p class="craft-desc">Cofres de madera pulida con herrajes de bronce | Varios Tamaños</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20los%20Baúles%20de%20Madera%20Natural" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_47_1.jpg" alt="Alcancía de Perro Schnauzer" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Alcancía de Perro Schnauzer</h2>
+                    <p class="craft-desc">Figura canina hiperrealista en resina o madera tallada | 21x33cm</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20la%20Alcancia%20de%20Perro%20Schnauzer" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+            <article class="craft-card">
+                <img src="Art_48_1.jpg" alt="Jarrones y Vasijas de Porcelana" class="single-img">
+                <div class="craft-info">
+                    <h2 class="craft-title">Jarrones y Vasijas de Porcelana</h2>
+                    <p class="craft-desc">Cerámica pulida con cuellos estilizados y detalles metálicos | Varios Tamaños</p>
+                    <a href="https://wa.me/593995072619?text=Hola,%20deseo%20consultar%20sobre%20los%20Jarrones%20y%20Vasijas%20de%20Porcelana" target="_blank" rel="noopener noreferrer" class="btn-order">Pedir por WhatsApp</a>
+                </div>
+            </article>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-top">
+            <div class="footer-brand">Miorianga.art</div>
+            <div class="footer-socials">
+                <a href="https://facebook.com/MIORIANGA" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://instagram.com/MI_ORIANGA" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@miorianga" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="https://wa.me/593995072619" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+            <div class="footer-links">
+                <a href="../index.html">HOME</a><span>|</span>
+                <a href="../Legal/legal.html">LEGAL</a><span>|</span>
+                <a href="../Contacto/contacto.html">CONTACTO</a>
+            </div>
+        </div>
+        <hr class="footer-divider">
+        <div class="footer-bottom">© 2026 MiOrianga. Todos los derechos reservados.</div>
+    </footer>
+
+    <script>
+        function moveSlide(button, direction) {
+            const carousel = button.closest('.craft-carousel');
+            const slider = carousel.querySelector('.carousel-slider');
+            const slides = slider.querySelectorAll('img');
+            const totalSlides = slides.length;
+            
+            let currentIndex = parseInt(slider.getAttribute('data-index') || 0);
+            
+            currentIndex += direction;
+            
+            if (currentIndex < 0) {
+                currentIndex = totalSlides - 1;
+            } else if (currentIndex >= totalSlides) {
+                currentIndex = 0;
+            }
+            
+            slider.setAttribute('data-index', currentIndex);
+            slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+        }
+    </script>
+</body>
+</html>
